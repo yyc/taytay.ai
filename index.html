@@ -1,3 +1,92 @@
-Hello there. Testing:
-<script src="https://cdn.socket.io/socket.io-1.4.5.js">
-</script>
+<html>
+  <head>
+    <title>Taytay.ai 0.1a</title>
+    <style>
+      #messages{
+        width: 50%;
+        margin-left: auto;
+        border: 1px solid black;
+        float: right;
+        height:100%;
+        overflow-y: scroll;
+      }
+      #control{
+        width:50%;
+      }
+      ul{
+      }
+      ul li{
+        list-style:none;
+      }
+      .teach{
+        background-color: #fdffaa;
+      }
+      .prompt{
+        background-color: #ccffcc;
+      }
+      .error{
+        background-color: #f8a1a1;
+      }
+      #songprompt{
+        width:50%;
+      }
+      #lyrics{
+        width:90%;
+        height:100px;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+    <script>
+      var socket = io.connect('http://128.199.74.23:8080/');
+      socket.on('message', function (data) {
+        if(data == null){
+          $("#messages ul").append("<li class = 'error> Sorry, I can't think of anything. Try something else?</li>");
+        } else{
+          $("#messages ul").append("<li>" + data.replace(/\n/g,"<br>") + "</li>");
+          var elem = document.getElementById('messages');
+          elem.scrollTop = elem.scrollHeight;
+
+
+        }
+      });
+      $(document).ready(function(){
+        $("#promptButton").click(function(){
+          data = $("#songprompt").val();
+          socket.emit("prompt", data);
+          $("#messages ul").append("<li class='prompt'>" + data.replace(/\n/g,"<br>") + "</li>");
+        });
+        $("#teachButton").click(function(){
+          data = $("#lyrics").val();
+          socket.emit("teach", data);
+          $("#messages ul").append("<li class='teach'>" + data.replace(/\n/g,"<br>") + "</li>");
+        });
+      });
+    </script>
+    <div id="messages" >
+      <ul>
+      </ul>
+      <div id="#bottom"></div>
+    </div>
+    <div id="control">
+      Prompt taytay.ai for a song (at least 2 words): 
+      <br />
+      <input type="text" placeholder="cause we" id="songprompt">
+      <br />
+      <button id="promptButton">Sing me a song!</button>
+      <br />
+      Note: Because of capitalization issues your choice of lyric may not appear at first
+      <br />
+      Teach taytay.ai a song:
+      <br />
+<a href="#kek" onclick="$('#lyrics').val('never gonna give you up\nnever gonna let you down\nnever gonna run around\nand hurt you');">sample</a>
+      <br />
+      <textarea id="lyrics"></textarea>
+      <br />
+      <button id="teachButton">Teach me a song!</button>
+    </div>
+  </body>
+</html>

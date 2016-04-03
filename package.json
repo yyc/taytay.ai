@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "java": "^0.6.1"
+    "http2": "^3.3.2",
+    "java": "^0.6.1",
+    "letsencrypt-express": "^1.1.2",
+    "socketio": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {

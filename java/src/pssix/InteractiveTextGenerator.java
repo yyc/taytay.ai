@@ -13,23 +13,54 @@ public class InteractiveTextGenerator {
 	private MarkovModelWords model;
 	private static int order;
 
-	public InteractiveTextGenerator(int order, String filename) {
-		model = new MarkovModelWords(filename, order);
+	public InteractiveTextGenerator(int a_order, String filename) {
+		String text = readFile(filename, StandardCharsets.US_ASCII);
+		order = a_order;
+		model = new MarkovModelWords(text, order);
 	}
 
 	public boolean add(String s) {
-		return model.augment(s);
+		try {
+			return model.augment(s);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public String print(String tempString, int n) {
-		String[] startString = Arrays.copyOf(tempString.split(" ", order + 1), order);
-		return model.printn(new RollingHashStringKey(startString), n);
+		try {
+			String[] startString = Arrays.copyOf(tempString.split(" ", order + 1), order);
+			if (startString[order - 1] == null) {
+				return "Prompt too short!";
+			} else {
+				try {
+					String res = model.printn(new RollingHashStringKey(startString), n);
+					if (res.trim() == tempString) {
+						return null;
+					} else {
+						return res;
+					}
+				} catch (Exception e) {
+					return "Print problem!" + e.getMessage() + e.getClass().getName();
+				}
+			}
+		} catch (Exception e) {
+			return "Problem with input!" + e.getMessage() + e.getClass().getName();
+		}
+	}
+
+	public String print(int n) {
+		try {
+			return model.printn(model.getStartKey(), 40);
+		} catch (Exception e) {
+			return "Problems!" + e.getMessage() + e.getClass().getName();
+		}
+
 	}
 
 	public static void main(String[] args) {
 		order = new Integer(args[0]);
-		String text = readFile(args[1], StandardCharsets.US_ASCII);
-		InteractiveTextGenerator itg = new InteractiveTextGenerator(order, text);
+		InteractiveTextGenerator itg = new InteractiveTextGenerator(order, args[1]);
 		int n = 100;
 		Scanner inScanner = new Scanner(System.in);
 		String tempString;
