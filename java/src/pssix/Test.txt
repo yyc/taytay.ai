@@ -1,0 +1,357 @@
+Problem 1. Short answer. [20 points]
+Problem 1.a. [5 points] Consider the game of tic-tac-toe. There are two players X and O. Each turn, one of the players marks one square. (For example, on X's turn, the player places an X in one of the boxes. On O's turn, the player places an O in one of the boxes.)
+Model the tic-tac-toe game as a graph where each board position is a node in the graph and each (directed) edge represents a valid move from one board position to another. Consider the following board position, where X just made a move. (It is O's turn.)
+What is the in-degree of this node in the game graph?
+What is the out-degree of this node in the game graph? Briefly explain why.
+Problem 1.b. [5 points] Draw a (small) graph with a designated source s and destination d for which Dijkstra's Algorithm produces the wrong answer for the distance from s to d. Show the (incorrect) distances calculated by Dijkstra's. Your graph should consist of at most four or five nodes.
+This solution should have a picture. Imagine four nodes s, A, B, d. The source s is con- nected to A with an edge of weight 10, and to B with an edge of weight 5. A is connected to B with an edge of weight -10, and B is connected to d with an edge of weight 2. The correct distances are: A : 10, B : 0, d : 2. Dijkstra's calculates: A : 10, B : 0, d : 7, because it relaxes B with an estimate of 5 before it relaxes A.
+Problem 1.c. [10 points] Two rooted binary trees are identical if they contain the same nodes with the same values and the same structure (i.e., parent and child pointers). Briefly describe an efficient algorithm for deciding if two rooted binary trees T1 and T2 are identical. What is the running time of your solution?
+
+Problem 2. Unique Snowflakes [20 points]
+Let A be an array of n real numbers. Assume that there are at most k unique numbers in A, where k <= pn. The value of k is not known in advance. Give an O(n+klogk) time algorithm for sorting the array A. (The output array should be a sorted array containing every number that appears in A the exact same number of times as it appears in A.)
+(Hint: First, find the k unique elements.)
+Describe your algorithm (briefly, using pseudocode and high-level descriptions) and give its running time.
+
+Problem 3. Dagnabbit. [20 points]
+You are given a directed acyclic graph G = (V,E) represented as an adjacency list. You are also given an array of additional undirected edges K, each of which is a pair of nodes. Give an algorithm that adds the edges in K to the graph G, oriented so as to ensure that G remains a directed acyclic graph. For example, if K contains edge (v, w), you may choose to add directed edge (v, w) or directed edge (w, v) to G.
+In this directed graph, there are edges from A to B and from C to A. If the set K consists of one edge (B,C) (undirected), then your algorithm must add this edge oriented from C to B. Otherwise, if you add the edge oriented from (B,C), then it would create a cycle.
+Describe your algorithm, explain why the resulting graph is a DAG, and give its running time.
+
+Problem 4. Cool cats. [20 points]
+Cats are cool. Cats can also be fat. Your goal is to build a dynamic data structure that maintains a database of cats and supports the following type of query:
+Find me the coolest cat that weighs at most 4.3kg.
+In more detail, a cat is defined by three things: its name (a string), its coolness (a non-negative real number), and its weight (a non-negative real number). There is no known upper bound on the coolness or weight of a cat. The data structure should support two operations:
+-insertCat(String name, double cool, double weight): Add a cat with the specified parameters to the database.
+-findCoolestCat(double w): Let C be the set of cats in the database with weights <= w. You should return the coolest cat in the set C.
+Your goal is to develop a data structure to efficiently implement these two operations. Your algorithm should be both time and space efficient.
+Problem 4.a. Suppose that there are currently n cats in the database. How can efficiently can we support these operations?
+Problem 4.b. Describe (briefly) the main idea behind your data structure for implementing these operations:
+
+Problem 5. Starbucks vs. McDonalds [20 points]
+You are given an (undirected) graph G = (V,E) representing a road network, where each road has a distance associated with it. Each node in the graph represents an intersection, and at some of the intersections there is a Starbucks and at some of the intersections there is a McDonalds. (At some of the intersections there is neither.) You are given a set A of Starbucks-nodes, and a set B of McDonalds-nodes.
+For every vertex in the graph, your job is to decide whether it is part of Starbucks territory or McDonalds territory. We say that a vertex is in Starbucks territory if it is closer to Starbucks, and in McDonalds territory if it is closer to McDonalds. (Recall that each edge has a distance associated with it.)
+This graph consists of two Starbucks and two McDonalds (each labelled). Each node in the graph has been marked with an S if it is in Starbucks territory and with an M if it is in McDonalds territory.
+Your goal is to give an efficient algorithm for determining, for each vertex whether it is in Starbucks or McDonalds territory.
+Problem 5.a. Describe the basic idea of your algorithm in 1-2 sentences.
+Problem 5.b. If the graph contains n nodes, m edges, and k Starbucks/McDonalds, what is the running time of your algorithm?
+Problem 5.c. Explain your algorithm in more detail, including a description of how it works and an explanation of its running time.
+
+Problem 1. Invariants. [30 points]
+Problem 1.a. Check the boxes below for the statements that are always true. Each statement refers to a (binary) max-heap.
+The leftmost leaf is the smallest item in the heap.
+For every node in heap that has two children, the value of the left child is no greater than the value of the right child.
+When a heap is stored in an array, the array is sorted from largest to smallest (in descending order).
+Given a heap, you can output a sorted list of all the values in O(n) time.
+Given an unsorted array of values, you can build a heap in O(n) time.
+Problem 1.b. Recall Dijkstra's Algorithm. Initially, only the source s is in the priority queue, and every other node has estimate 1 and is not in the priority queue. As the algorithm progresses, nodes are extracted from the priority queue, edges are relaxed, and nodes are added to the priority queue (if their estimate is non-infinite).
+Let dist(u, v) be the shortest distance from node u to node v. Let est[u] be the estimate at node u. Define X to be the set of nodes that have been extracted from the priority queue, and define P to be the set of nodes that have been inserted, at some point, into the priority queue. (Notice that X  P : the set P includes all the items that were ever in the priority queue.)
+Each of the following statements is about Dijkstra's Algorithm. Assume s is the source, and there are no negative weight edges in the graph. Check the boxes below for the state- ments that are always true.
+-For every node u 2 X: est[u] = dist(s, u).
+-At all times, for all u: est[u] <= dist(s, u).
+-Let u, v 2 P , and assume est[u] <= est[v]. Then dist(s, u) <= dist(s, v).
+-Let u, v 2 P , and assume est[u] <= est[v]. Then dist(s, u) <= est[v].
+-Every node is extracted from the priority queue exactly once.
+
+Problem 1.c. Each of the following statements is about an AVL tree. Check the boxes below for the statements that are always true.
+-The root is the median item in the tree.
+-The key in a node is at least as large as the key of its children.
+-Given an AVL tree, you can output a sorted list of all the keys
+in O(n) time.
+-Given a sorted list of keys, you can build an AVL tree in O(n) time.
+-If key u is in an AVL tree, you can find the successor of u (or report no successor) in O(log n) time.
+      
+Problem 2. Mountain Climbing. [20 points]
+Imagine you are organizing a climbing expedition up Mount Doom, the tallest mountain in the kingdom. You start at the basecamp at the bottom of the mountain, and ascend to the peak. On the mountain are a series of campsites where you can rest. Your job is to find the shortest route from the basecamp to the peak. You are given two inputs:
+-An array Alt[0..n-1] where Alt[j] is the altitude of campsite j.
+-An array Dist[0..n-1][0..n-1] where Dist[i][j] is the distance from campsite i
+to campsite j. All distances are positive numbers greater than zero.
+Assume that campsite 0 is basecamp and campsite n   1 is the peak. Your algorithm should output a sequences of campsites 0 = s0,s1,s2,...,s` = n   1. The route you find must satisfy the following rules:
+-You can only go up. That is, each subsequent basecamp must be higher than the previous one: A[si] < A[si+1].
+-You can only go at most K kilometers between camps (then you need to rest). So the distance between subsequent campsites can be at most K, i.e., Dist[si][si+1] <= K.
+Give the most efficient algorithm you can for solving this problem. (In answering the ques- tion, you should not make any assumptions on K or on the campsite locations or the dis- tances, e.g., do not assume that the triangle inequality holds; it may not.)
+Problem 2.a. Describe your algorithm briefly in one or two sentences.
+Problem 2.b. What is the worst-case running time of your algorithm?
+Problem 2.c. Provide more details as to how your algorithm works, including pseudocode as necessary for clarity.
+ 
+Problem 3. The Ultra Ultra Ultra Running Man. [20 points]
+A group of n runners decides to run an ultra ultra ultra race of M kilometers, a distance so far that no one can complete it in a lifetime of running. Each runner runs as far as he/she can, and then stops. Your job is to build a data structure to calculate statistics about the race. Specifically, your data structure should support two operations:
+-addRunner(int d) which adds a new runner who ran d kilometers to the data structure. -howManyRunners(int d) which returns the number of runs that made it to distance
+at least d.
+Consider the following example:
+Here you see four runners, who are added to the data structure as follows:
+    addRunner(10)
+    addRunner(5)
+    addRunner(22)
+    addRunner(12)
+If you were to then query the data structure: howManyRunners(11) it would return the answer 2. If a new runner were added via the operation addRunner(42), then the query howManyRunners(11) would return 3.
+Assume there are n runners, with a maximum distance of M kilometers. (For simplicity, you may assume that n and M are powers of 2.) Give the most efficient implementation of this data structure. Both operations should be efficient, and both the running time and space usage should depend only on n (not M). Partial credit will be given for solutions whose running time or space depends on M (as long as the implementation is reasonably efficient).
+Problem 3.a.
+Name: 7
+Describe your solution briefly in two sentences.
+Problem 3.b. What is the running time of each operation in your data structure?
+Problem 3.c. Provide more details explaining how your data structure works (and why it works). Give pseudocode as necessary for clarity.
+
+Problem 4. Peer-to-Peer Networking [20 points]
+Imagine a peer-to-peer network consisting of n users arranged in a ring. Each user has k (large) files. Files are duplicated in the network, i.e., each file may be stored by multiple users. (Each file is only stored at most once by each user.) Assume that the files are very, very large (especially compared to n and k).
+Alice wants to know how many times each of her files appears on the network. (Perhaps if a given file appears too many times, we should delete some of the copies; if a given file does not appear enough times, we should increase the number of copies.) In the above example, k = 4, n = 6, and each of Alice's files appears three times in the network.
+Alice will send messages around the ring to try to answer this question. The goal is use the minimum amount of communication. We will consider a simplified networking model:
+-Alice creates a data structure locally.
+-Alice sends it to her right neighbor, who receives an exact copy of the data structure.
+-When a user receives the data structure, they can modify it and send it on to his/her right neighbor in the same manner.
+-When Alice receives a copy of the data structure from her left neighbor, she stores it locally overwriting the original version).
+We assume that each transmission of the data structure costs exactly the size of the data structure as it is stored locally. (That is, we will not consider data compression or any other tricks for saving bandwidth.) Thus if the data structure has size m, then the total communication cost of sending the data all the way around the ring once is mn. For example, if the data structure is an array of k integers, and each integer is stored in log n bits, then the total communication cost is kn log n. (Whether an entry in the array is "empty" or not does not matter.)
+Thus for the purpose of this problem, minimizing the size of the data structure is equiv- alent to minimizing the communication cost.
+Problem 4.a. Alice first suggests the following strategy for counting how many times
+each of her k files appears in the ring:
+-She chooses a hash function h that maps each of her files to an integer in the range [0, . . . , k5n7]. (The range is chosen to be particularly large-you should not assume this is the best or optimal choice of range, or attribute any special meaning to the values 5 and 7.)
+-Assume h satisfies the simple uniform hashing assumption.
+-The data structure consists of two arrays F (for file) and C (for count), each of size k.
+-In cell F[i] she stores h(f[i]), where f[i] is file i.
+-In cell C[i] she stores 1 to indicate the count of 1.
+-Whenever a user receives the data structure containing F and C, she checks whether any of her files has the same hash as any of the files in F. If so, she increments the appropriate counter in C.
+-In the end, Alice reads the counters in C to determine the number of times each file appears in the ring.
+Assuming that you can store a value in the range [0, . . . M   1] using log M bits, what is the total (asymptotic) communication cost of this approach:
+Will the final count received by Alice be: (circle all that are correct)
+Problem 4.b. Alice is worried that the counts may not be correct. (Is Alice right to be worried? See previous page.) Alice decides to try another approach: a hash table.
+Alice's new data structure is a hash table of size M, where collisions are resolved with chaining. Her hash table is implemented exactly as discussed in class (or as implemented in the Java 7 library). She inserts each of her files into the hash table, with the file as the key and a count as the value.
+For each of her own files, she increments the count to 1. She then sends the hash table around the ring. Each user that receives the hash table looks up all of her files in the table; if a user finds her file in the hash table, she increments the count.
+Assume that M is chosen to be su ciently large so that all of the linked lists in the hash table are of length at most 3. For this part, assume that the size of M is reasonable, and assume that communication costs of O(M) or O(Mn) or even O(Mnk) are reasonable (even though in reality they are not).
+Why is this a very bad data structure for solving the counting problem? What mistake did Alice make? Explain briefly, e.g., in at most three to four sentences.
+Problem 4.c. Next, Alice tries to use a Fingerprint Hash Table. She creates a Fingerprint Hash Table with M entries, but stores an integer (of size log n) in each cell (instead of storing just a binary 0/1 value). This integer is used to store the count of the number of files that hash to this cell. (Each file can appear at most n times in the network.) She then sends this Fingerprint Hash Table around the ring, and each user looks up all of her files in the table; if a user finds a count of at least one in a given entry, then she increments the count.
+What is a good choice for the value of M (as a function of n and k) to ensure that the expected error on the count is only plus/minus O(1)?
+Assuming the table is of size M, what is the total communication cost of the Fingerprint Hash Table solution?
+
+Problem 5. The Wizard's Tournament [20 points]
+Merlin has asked you to organize a tournament of wizards. There are n wizards, and your goal is to find the strongest wizard.
+In order to be fair, each wizard must begin the tournament with the same amount of magical power. Each wizard is provided with a magic button containing all the magical power they may use during the tournament. (The magical power in a magical button is not used up, but remains the same throughout the tournament.)
+When two wizards fight, the winner gets all the magical power of the defeated wizard, i.e., the winner collects all the buttons. Each fight is decided as follows:
+-If one wizard has more power than the other, then he/she wins. (That is, the wizard with more buttons always wins.)
+-If the two wizards have the same power (i.e., the same number of buttons), then the winner is arbitrary. (You can choose the winner any way you like.)
+Every fight is between two undefeated wizards. (Once a wizard has lost his buttons, he cannot fight anymore.)
+Every so often, an undefeated wizard may want to thank all the wizards whose buttons he/she has claimed. For example, imagine that Merlin has collected 43 buttons. Then when Merlin casts the thankWizards spell, all 42 wizards who lost their buttons to Merlin (directly or indirectly) get a thanks. (The last button, #43, is of course Merlin's own button, in this case.)
+The tournament director has asked you to implement the following data structure to keep track of the tournement:
+Match(Wizard A, Wizard B) : implements a match between Wizard A and Wizard B, and returns the wizard that won (according to the rules above, i.e., the wizard with the most buttons wins).
+thankWizards(Wizard A) : Wizard A casts the thankWizards spell, thanking all the wizards whose buttons he/she possesses (excluding Wizard A).
+countThanks(Wizard A) : Returns the total number of thanks that Wizard A has received during the entire tournament.
+For example, consider the following tournament:
+a. Match(A,B) : A wins (arbitrary). A now has two buttons.
+b. Match(C,D) : C wins (arbitrary). C now has two buttons.
+c. Match(E,F) : E wins (arbitrary). E now has two buttons.
+d. thanksWizards(E) : Wizard F receives a thanks.
+e. Match(C,E) : C wins (arbitrary). C now has four buttons.
+f. thanksWizards(C) : Wizards D, E, F receive thanks. g. countThanks(F) : returns 2.
+h. Match(A,C) : C wins (because C has more buttons).
+i. thanksWizards(C) : Wizards A,B,D,E,F receive thanks.
+j. countThanks(F) : returns 3. k. countThanks(E) : returns 2. l. countThanks(A) : returns 1.
+ Implement the data structure to support these operations as efficiently as possible. Ideally, Match should run in O(1) time (or O(1) expected time), and both of the thanking operations should be fast.
+Problem 5.a. Describe your solution briefly in one or two sentences.
+Problem 5.b. What is the running time of each operation in your data structure? Match :
+thankWizards : countThanks :
+Problem 5.c. Provide more details explaining how your data structure works (and why it works). Give pseudocode as necessary for clarity. Explain why your data structure achieves the claimed running time. Draw a picture to illustrate.
+
+Problem 6. Just for fun: The Blue-Eyed Islanders [0 points]
+There is an island upon which a tribe resides. The tribe consists of 1000 people, with various eye colours. Yet, their religion forbids them from knowing their own eye color, or even from discussing the topic. Thus, each resident can (and does) see the eye colors of all other residents, but has no way of discovering his or her own (there are no reflective surfaces).
+If a tribesperson does discover his or her own eye color, then their religion compels them to say goodbye to every other islander and leave the island forever by noon the following day. All the tribespeople are highly logical and devout, and they all know that all the others are also highly logical and devout (and they all know that they all know that all the others are highly logical and devout, and so forth).
+Of the 1000 islanders, it turns out that 100 of them have blue eyes and 900 of them have brown eyes, although the islanders are not initially aware of these statistics (each of them can of course only see 999 of the 1000 tribespeople).
+One day, a blue-eyed foreigner visits the island and wins the complete trust of the tribe. One evening, he addresses the entire tribe to thank them for their hospitality. However, not knowing the customs, the foreigner makes the mistake of mentioning eye color in his address, remarking how unusual it is to see another blue-eyed person like myself in this region of the world.
+What effect, if anything, does this faux pas have on the tribe?
+
+Problem 1. Sorting Jumble. [12 points]
+The first column in the table below contains an unsorted list of Silicon Valley companies. The last column contains a sorted list of companies. Each intermediate column contains a partially sorted list of companies.
+Each intermediate column was constructed by beginning with the unsorted list at the left and running one of the sorting algorithms that we learned about in class, stopping at some point before it finishes. Each algorithm is executed exactly as described in the lecture notes. (One column has been sorted using a sorting algorithm that you have not seen in class.)
+Identify, below, which column was (partially) sorted with which algorithm. Hint: Do not just execute each sorting algorithm, step-by-step, until it matches one of the columns. Instead, think about the invariants that are true at every step of the sorting algorithm.
+Problem 2. Algorithm Analysis [16 points]
+For each of the following, choose the best (tightest) asymptotic function T from among the given options. Some of the following may appear more than once, and some may appear not at all. Please write the letter in the blank space beside the question.
+Problem 2.c. T (n) is the running time of a divide-andconquer algorithm that divides the input of size n into two equal-sized parts and recurses on both of them. It uses O(1) work in dividing/recombining the two parts (and there is no other cost, i.e., no other work done). The base case for the recursion is when the input is of size 1, which costs O(1).
+Problem 2.d. The running time of the following code, as a function of n:
+
+Problem 3. Sorting Tweets [12 points]
+Tweets are strings of 140 characters, and they vary significantly in quality. Some tweets are great and some are useless. Assume that you have already implemented a function:
+evaluateTweet(String tweet)
+that returns an integer between 1 and 10. (You do not need to implement the evaluateTweet method.) Ten indicates a tweet of the highest quality, and one a tweet of the lowest quality.
+Your goal is to sort a list of tweets so that all tweets are ordered first by quality and then alphabetically:
+- If tweet ti has higher quality than tweet tj , then it always comes later in the list.
+- If tweets ti and tj have the same quality, then they are ordered alphabatetically as in standard
+dictionary order.
+For example, your sorted list of tweets1 might be as follows:
+Here the number represents the quality, and it is followed by the string associated with the tweet.
+Problem 3.a. Assume that Alice is writing a special sorting function QualitySort that will sort your list of tweets by quality from smallest to largest, and Bob is writing a special sorting function AlphaSort that will sort your list of tweets alphabetically from smallest to largest.
+You will sort your list by first executing one of these sorting algorithms and then the other. (You will not modify the list in any other way except by executing QualitySort and AlphaSort.)
+The Pointy-Haired Boss, strangely, requires that one of the sorting algorithms is implemented with MergeSort (in the usual top-down manner) and the other is implemented with QuickSort (using a random pivot).
+You get to choose: which function will use MergeSort and which will use QuickSort?
+Explain briefly (in 1-2 sentences) why:
+QualitySort : AlphaSort :
+Problem 3.b. You decide to ignore the Pointy-Haired Boss and not use Alice and Bob's sorting methods. (Notice this part is different from Part (a).) Instead, you decide to use the generic Arrays.sort method provided in the Java libraries, which will sort an array of any class that supports the Comparable interface. You will use the following code to sort your tweets:
+Tweet[] listOfTweets = getTweets(); // retrieves tweets from Twitter
+Arrays.sort(listOfTweets); // sorts the list from smallest to largest
+To do this, you must implement a Tweet class that supports the Comparable interface in just the right way so that a single invocation of sort will result in a properly sorted list.
+Assume that you have already coded all the functionality in your Tweet class except for the Comparable interface. Your job is to modify the code below for the Tweet class so that it fully supports the Comparable interface. Your implementation should be such that we can sort the tweets properly (by both quality and alphabetically) with a single call to the sort function.
+
+Problem 4. Buggy Code: Measuring Gravitational Waves [12 points]
+Last night, in an exciting new discovery, physicists announced the first direct detection of gravitational waves, first predicted by Einstein almost 100 years ago! On the next page, you will find some buggy code that failed to detect gravitational waves. The main method (which is correct Java code) for the buggy graviational wave detector class looks like this:
+Please identify each of the bugs in the GravitationalWaveDetector class on the next page. Only identify bugs that will prevent compilation, or will cause the program to crash.3 There are four severe bugs. Fill in the following table, specifying for each bug the line number, whether it causes the program to fail to compile or to crash, and briefly describe the problem.
+
+Problem 5. Buggy Code (continued): Math [12 points]
+The code on the next page is intended to implement a calculator. Unlike the previous problem, this code compiles and runs without crashing.
+Assume for this problem that both getIntegerKey and getOperatorKey are correctly implemented, and the code is simply omitted here. The getIntegerKey method returns the number that the user pressed on the keypad of the calculator. The getOperatorKey method returns the operator that the user pressed on the keypad. (All the legal operators are given here.) You may also assume that all the values and answers are integers.
+Problem 5.a. Explain the problem with this code, and given an example of when it prints the wrong answer to the screen.
+Problem 5.b. Modify the code (by crossing out and adding new code directly on the next page) so that it is correct, and also so that it does not use the instanceof keyword anywhere in the code. When correct, the program should apply the proper operator (returned by the getOperatorKey method) to the two integers (returned by the getIntegerKey method calls) and print out the correct answer. Do not modify the main method.
+
+Problem 6. Sorting Strange Sequences. [14 points]
+Problem 6.a. In class, we always assumed that we were sorting an array. What if you are sorting a linked list? (For the purpose of this problem, assume you have a standard doubly-linked list with a head and a tail pointer. It is a single linked list, not a SkipList.) For each sorting algorithm below:
+- Give the asymptotic running time when executed on a linked list.
+- Give the asymptotic amount of extra space needed outside the linked list.
+- Briefly explain how the implementation differs on a linked list from an array.
+(Remember how accessing a linked list differs from accessing an array.)
+Problem 6.b. Imagine you are sorting a set of large items on disk. For example, each item in the array is a 500MB video file (and you want to store the files on disk in the proper order).
+Comparing two items is very fast: you only need to read a small amount of the file to determine the proper order. In general, reading the array is very fast. But moving or copying the files is very, very slow. (For example, each swap of two elements in the array might take 10 or 20 seconds!) Which sorting algorithm that we have studied in class should you use? Why?
+
+Problem 7. The Marble Factory [22 points]
+After graduating from NUS, you decide to open a marble factory! Back in the olden days, before Minecraft and PlayStations, everyone used to play with marbles. Maybe they will again! First, you purchase a large warehouse for shipping boxes of marbles to your customers. Assume that every order contains at most M marbles. You are given a list of orders for the day, for example:
+To ship:
+Order 1: 150 marbles
+Order 2: 573 marbles
+Order 3: 1 marble
+Order 4: 4325 marbles
+All the boxes in your warehouse are the same size S. Each order is packed into the minimum number of boxes. For example, if S = 40, then Order 1 of 150 marbles take 4 boxes. (Two different orders cannot be combined in the same box.)
+Problem 7.a. Give a linear time algorithm numBoxes(S, orders) that calculates the exact number of boxes of size S you need to ship all the requests on the list orders. Use pseudocode and briefly explain (in one to two sentences) how your algorithm works.
+Problem 7.b. Your warehouse can ship at most T boxes per day. (The loading dock is not big enough to ship more.) Moreover, it is generally cheaper to ship smaller boxes than bigger boxes. Therefore we want to find the smallest size S so that we can pack all our orders in at most T boxes. Consider the following algorithm, which takes as input a list of orders:
+Assume that there are n orders. Recall that M is the maximum size of any order. What is the (tight) asymptotic running time of this algorithm as a function of n and M ?
+Explain briefly (in one or two sentences) why this algorithm works. (In particular, explain why it is safe to return on line (6) without examining any of the smaller values of S.)
+Problem 7.c. Give a more efficient algorithm for finding the smallest value of S that allows us to pack all the orders in at most T boxes. Assume that the total number of marbles in all the orders is very large, and that T is also very large. For example, you might think of T > n2, where n is the number of orders. Analyze your solution as a function of n and M (and not any other parameters).
+In less than eight words, what is your basic approach:
+What is the running time of your approach?
+
+Extra Problem: Just for Fun. (Clockwork Cards) [0 points]
+Consider the following card game:
+- Begin with a well-shuffled deck of 52 cards.
+- Deal the cards face down into 13 piles, each containing four cards.
+- Label the 13 piles: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
+At this point, you have 13 piles, each containing four randomly chosen cards, and each with a label. (Note that the label has nothing to do with the cards in the pile.) Now you are ready to play the game. The game proceeds as follows.
+1. Take the top card from the stack with the label King.
+2. Look at the card, and discard it.
+3. Go to the pile that has the same label as the discarded card. For example, if the discarded card was a 7, then go to the pile with the label 7. If the discarded card with an ace, go to the pile with the label Ace.
+4. If the selected pile is empty, then exit.
+5. Otherwise, take a card from the top of the selected pile.
+6. Go to step 2.
+
+Problem 1. Sorting Jumble. [10 points]
+Your goal is to identify which sorting algorithm is being used in which case. The first column in the table below contains an unsorted list of telephones. The last column contains a sorted list of telephones. Each intermediate column contains a partially sorted list of telephones.
+Each intermediate column was constructed by beginning with the unsorted list at the left and running one of the sorting algorithms that we learned about in class, stopping at some point before it finishes. Identify, below, which column was (partially) sorted with which algorithm.
+Hint: Do not just execute each sorting algorithm, step-by-step, until it matches one of the columns. Instead, think about the invariants that are true at every step of the sorting algorithm.
+
+Problem 3. Jeff Erickson's Barley Mow [10 points]
+Jeff Erickson is a professor at UIUC in Illinois. One of Jeff Erickson's favorite songs is "The Barley Mow," which he loves to sing to his algorithms classes. The "Barley Mow" is a traditional Devonian/Cornish drinking song that can be constructed according to the following algorithm, as adapted by Jeff Erickson. Assume that container[i] is the name of a container1, and that it holds 2i ounces of your favorite beverage.
+BarleyMow(n)
+Here's a health to the barley-mow, my brave boys,
+Here's a health to the barley-mow!
+We'll drink it out of the jolly brown bowl,
+Here's a health to the barley-mow!
+For i = 1 to n do
+We'll drink it out of the container[i], boys,
+Here's a health to the barley-mow!
+For j = i downto 1 do
+The  container[j],
+And the jolly brown bowl!
+Here's a health to the barley-mow, my brave boys,
+Here's a health to the barley-mow!
+Problem 3.a. Suppose each container name container[i] is a single word, and you can sing four words a second. How long would it take you to sing BarleyMow(n)? Give a tight asymptotic bound.
+1One version of the song uses the following containers: nipperkin, gill pot, half-pint, pint, quart, pottle, gallon,halfanker, anker, firkin, half-barrel, barrel, hogshead, pipe, well, river, and ocean. Every container in this list is twice as big as its predecessor, except that a firkin is actually 2.25 ankers, and the last three units are just silly.
+Problem 3.b. Suppose each time you mention the name of a container, you drink the corresponding amount of your favorite beverage: one ounce for the jolly brown bowl, and 2i ounces for each container[i]. Exactly how many ounces would you drink if you sang BarleyMow(n)? (Give an exact answer, not just an asymptotic bound.)
+Problem 3.c. Extra credit: 1 point
+If you want to sing this song for n > 20, you will have to make up your own container names, and to avoid repetition, these names will get progressively longer as n increases2. Suppose container[n] has O(log n) syllables, and you can sing six syllables per second. Now how long would it take you to sing BarleyMow(n)? Give a tight asymptotic bound. Hint: Recall that log(n!) = O(n log n).
+
+Problem 4. Buggy Code: AddEmUp. [16 points]
+As part of your work for HalfruntCorp, you have been asked to debug the following code written by your predecessor Jeltz who was recently fired. Strangely, it does not seem to work.
+Problem 4.a. There are several bugs that will prevent this program from compiling. Only list bugs that prevent compiling (not warnings, bad coding style, or bugs that yield the wrong answer.) Identify (in fifteen words or less, each) two such problems with this code. Specify the line number.
+Problem 4.b. Once you have fixed those compilation errors, there are still several bugs that keep the code from working as intended. The program is supposed to calculate the sum of the absolute values of the integers in the array. Identify (in fifteen words or less, each) two such problems with this code.
+Problem 5. Matrix Math. [14 points]
+Assume you are given an n O n matrix of integers M as input: int[][] M =
+Your job is to find the maximum value that appears in every row. For example, in the matrix above, the answer is 12: the value 12 appears in every row, and no larger value appears in every row.
+Describe the most time efficient algorithm you can think of to solve this problem: (Be precise and detailed, but pseudocode or Java is not necessary unless it helps you to explain. You can assume you already have access to all the algorithms we have discussed in class. You do not need to restate how they work.)
+
+Problem 7. Mind the Gap [20 points]
+Assume you are given a set of n points on a line. The points are given to you as an array of real numbers x[0 . . n   1] where x[0] is the leftmost point on the line, x[1] is the next point, x[2] is the next point, etc. The goal, in the first part of the problem, is to find the pair of consecutive points with the largest gap, i.e., to find an i such that |x[i + 1]   x[i]| is largest. Then, the second part asks about finding a gap that is at least as large as the average gap. Here is an example input:
+Problem 7.a. Give an e cient algorithm to find the largest gap. Your algorithm should return a value i that maximizes |x[i + 1]   x[i]|.
+In less than four words, what is your basic approach:
+What is the running time of your approach?
+Describe your algorithm briefly, in 2-3 sentences. (Use pseudocode here only if necessary.)
+
+Problem 1. Counting. [20 points]
+Consider an array A[1 . . n] of bits, A[i] in {0, 1}. The array A[1 . . n] supports the following
+operations.
+- BitFlip(i): Flip the bit at array position i, i.e., if A[i] == 0, then set A[i] = 1; if
+A[i] == 1, then set A[i] = 0.
+- NearestOne(i): Return an index j closest to i where A[j] == 1. (Note that the
+closest 1 may be to the left or to the right.)
+Your goal is to develop a data structure to efficiently implement these two operations.
+Problem 1.a. Suppose that at some time t there are k bits in the array A that are set to 1. The array has length n. As a function of these parameters (but not necessarily all), how efficiently can we support these operations? Find a solution that minimizes the larger of the two running times.
+Problem 1.b. Describe (briefly) the main idea behind your data structure for implementing these operations:
+
+Problem 2. Maze Escape [20 points]
+You are in a twisty maze of passageways, all alike. Luckily you have a map. On the map, there are a set of rooms, which we will designate V , and a set of passageways each of which connect two rooms, which we will designate E. One of the rooms, s, has a caption, "You are here." Another room, d, has a caption, "Exit."
+There is one catch. Each passageway has a color: either RED or BLUE. Sometimes, when you traverse a passageway, you feel an electric shock. Sometimes you don't. After some experimenting, you discover the following rules:
+- If you enter the room via a RED edge and exit the room via a RED edge, then you will get a shock.
+- If you enter the room via a RED edge and exit the room via a BLUE edge, then you will not get a
+shock.
+- If you enter the room via a BLUE edge and exit the room via a BLUE edge, then you will get a shock.
+- If you enter the room via a BLUE passage and exit the room via a RED edge, then you will not get
+a shock.
+You have just entered s via a RED passageway. You will develop an efficient algorithm that finds a route from s to d that minimizes the number of electric shocks. (The total distance does not matter, only the number of electric shocks.)
+It is sufficient for your program to output the number of electric shocks; you do not need to calculate the exact route. Give the most efficient algorithm that you can.
+Problem 2.a. What is the running time of your algorithm?
+Problem 2.b. Give a high-level description of your algorithm in 2-3 sentences. Draw a picture that illustrates your idea.
+Problem 2.c. Provide any additional details needed to understand your algorithm. (There is no need to give pseudocode if you can describe your approach sufficiently clearly.)
+
+Problem 3. Problem 3.a.
+Hash Tables [20 points]
+Suppose the following keys are inserted into a hash table in the following
+order: ABCDEFG
+The keys are inserted using the following hash function:
+key hash(key) A2 B4 C2 D6 E5 F3 G2
+The keys are inserted using open addressing with linear probing. Indicate where each key is placed in the resulting array (drawn below with seven slots). Assume that the array size is fixed and does not double or shrink.
+Problem 3.b. Sometimes chaining is better, sometimes linear probing is better. Let's look at a few specific cases. Assumptions:
+- We are inserting n items into the table.
+- Thetableisofsizem=2n.
+- We are using the hash function h(k) = k mod m.
+- We do not allow for duplicates: when inserting a new element, we have to first do a search to check whether it already is in the table. (Thus, for chaining, to insert an item into a chain of length k costs O(k) time.)
+For each of the following sequences, for each case, give the total asymptotic running time for inserting all n items.
+
+Problem 4. The Dinner Party [20 points]
+You are having a party, and need to choose who to invite. You can invite at most k people. Each person has a FunScore, and your goal is to invite the people with the highest FunScores. In this way, you hope to maximize the total fun of the party.
+There is one rule: you are only allowed to invite your friends, or the friends of other people who have already been invited. You cannot invite someone who is not already friends with someone who has been invited to the party. You are given two functions:
+- String[] Invite(String name): This invites the specified person to the party, and returns a list of their friends. (Note that you can now invite these friends in the future.) The list of friends will be of length at most m, and the Invite function will run in O(m) time. (No one has more than m friends.)
+- FunScore(String name): Returns the FunScore of the specified person. This function runs in O(1) time.
+Describe an algorithm that invites k people to the party (or reports failure if it is not possible) and give its running time. Your algorithm should begin by inviting yourself to the party (Invite('Me')), and getting a list of friends. For full credit, your algorithm should complete its invitations in O(mk log(mk)) time. (A few bonus points for faster solutions.)
+
+Problem 5. Collisions [20 points]
+Consider a set of nodes V . Each node v is associated with an interval [x1, x2] on the real line, i.e., x1 and x2 are real numbers where x1 <= x2. We write int(v to refer to the interval associated with v. There is an (implicit) edge between u and v if their intervals intersect. Design a dynamic data structure that efficiently supports the following two operations:
+- insert(v, x1, x2): Add a new node v with associated interval [x1, x2].
+- count(): Return a count of the number of connected components in the (implicit)
+graph.
+Problem 5.a. Suppose that at some time t, we have inserted n nodes in the graph, and we have made m queries as to the count of connected components. How efficiently can we support these operations? Find a solution that minimizes the larger of the two running times.
+Total cost of n insert(...) operations:
+Total cost of m count() operations:
+Problem 5.b. Give a two-to-three sentence, high level description of how your data structure works:
+Problem 5.c. Describe your data structure in more detail:
+
+Problem 1. Sorting Jumble. [15 points]
+Your goal is to identify which sorting algorithm is being used in which case. The first column in the table below contains an unsorted list of names. The last column contains a sorted list of names. Each intermediate column contains a partially sorted list of names.
+Each intermediate column was constructed by beginning with the unsorted list and running one of the sorting algorithms that we learned about in class, stopping at some point before it finishes. Identify, below, which column was (partially) sorted with which algorithm.
+Hint: Do not just execute each sorting algorithm, step-by-step, until it matches one of the columns. Instead, think about the invariants that are true at every step of the sorting algorithm.
+
+Problem 5. Generic Functions [14 points]
+One of the advantages of generics is that you can write a specific type of functionality once and use it for many different types of objects. A common example of this is the function lessThan, which takes two parameters: firstObject and secondObject and returns: true if (firstObject < secondObject) and false if (firstObject >= secondObject)
+Write a generic method lessThan which satisfies this specification. Your method should work for any type of object as long as it satisfies the following two requirements: (i) Both firstObject and secondObject are of the same type. (ii) Both firstObject and secondObject implement the Comparable interface (parameterized in the appropriate way).
+The following is an example of some code that uses the lessThan function:
+
+Problem 6. MultiSelect [20 points]
+In class, we described an algorithm to select the kth item from an unsorted array. For example, consider the following array A:
+Then the command Select(A, 3) returns 5, since 5 is the third smallest item in the sorted list. (Notice that Select is defined here to take inputs from 1 to n, even though the array A is indexed from 0 to n - 1.) In this problem, your task is to implement a function that selects a range of items. The function:
+MultiSelect(A, k, r)
+selects the r items in position k,k+1,k+2,...,k+r-1 in the sorted list. So for example, MultiSelect(A, 3, 4) returns the array [5 7 8 9], and MultiSelect(A, 7, 2) returns the array [13, 23].
+Assume, for this problem, that you are given a function MagicMedian(A, start, end) which returns the median of the list of elements between start and end, inclusive. For example, MagicMedian(A, 1, 5) = 9, since 9 is the median of the list [23, 9, 4, 13, 2]. (Notice that start and end refer here to indices in the unsorted list.)
+Give the most efficient algorithm you can to solve the MultiSelect problem. You may assume that each element in the array is distinct, i.e., there are no duplicate values. Give the basic idea in 1-2 English sentences, specify the running time, and then use pseudocode to describe your solution succinctly and clearly. (Note: your solution does not have to be Java code. It should be expressed as simply as possible, while still explaining all necessary details.)
+The basic idea of my solution, in 1-2 sentences of English, is:
+The running time of my solution is:
+MultiSelect pseudocode:

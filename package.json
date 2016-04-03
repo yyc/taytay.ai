@@ -1,0 +1,23 @@
+{
+  "name": "taytay.ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "java": "^0.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yyc/taytay.ai.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yyc/taytay.ai/issues"
+  },
+  "homepage": "https://github.com/yyc/taytay.ai#readme"
+}
