@@ -48,6 +48,13 @@ public class RollingHashStringKey {
 
 	@Override
 	public String toString() {
-		return String.join(" ", StringArray);
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (String item : StringArray) {
+			if (!first || (first = false))
+				sb.append(" ");
+			sb.append(item);
+		}
+		return sb.toString();
 	}
 }
